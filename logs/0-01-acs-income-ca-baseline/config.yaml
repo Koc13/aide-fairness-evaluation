@@ -1,0 +1,53 @@
+data_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- datasets
+- acs-income-ca
+desc_file: null
+goal: Predict PINCP
+eval: accuracy
+log_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- logs
+- 0-01-acs-income-ca-baseline
+workspace_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- workspaces
+- 0-01-acs-income-ca-baseline
+preprocess_data: true
+copy_data: true
+exp_name: 0-01-acs-income-ca-baseline
+exec:
+  timeout: 3600
+  agent_file_name: runfile.py
+  format_tb_ipython: false
+generate_report: true
+report:
+  model: gpt-4.1
+  temp: 1.0
+agent:
+  steps: 20
+  k_fold_validation: 5
+  expose_prediction: false
+  data_preview: true
+  code:
+    model: o4-mini
+    temp: 0.5
+  feedback:
+    model: gpt-4.1-mini
+    temp: 0.5
+  search:
+    max_debug_depth: 3
+    debug_prob: 0.5
+    num_drafts: 5
