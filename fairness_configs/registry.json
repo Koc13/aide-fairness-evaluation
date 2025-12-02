@@ -1,0 +1,23 @@
+{
+  "01-acs-income-ca-baseline": {
+    "dataset_path": "datasets/acs-income-ca",
+    "target": "PINCP",
+    "protected_attribute": "RAC1P",
+    "fairness_metric": "demographic_parity_difference",
+    "performance_metric": "accuracy"
+  },
+  "01-acs-income-ca-fairness-prompt": {
+    "dataset_path": "datasets/acs-income-ca",
+    "target": "PINCP",
+    "protected_attribute": "RAC1P",
+    "fairness_metric": "demographic_parity_difference",
+    "performance_metric": "accuracy"
+  },
+  "02-acs-employment-ca": {
+    "dataset_path": "datasets/acs-employment-ca",
+    "target": "ESR",
+    "protected_attribute": "DIS",
+    "fairness_metric": "demographic_parity_difference",
+    "performance_metric": "accuracy"
+  }
+}
