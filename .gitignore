@@ -18,6 +18,7 @@ __pycache__/
 .vscode/
 
 # Datasets
+*.csv
 data/*.csv
 datasets/*.csv
 
