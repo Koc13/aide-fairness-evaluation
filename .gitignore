@@ -19,6 +19,7 @@ __pycache__/
 
 # Datasets
 data/*.csv
+datasets/*.csv
 
 # OS files
 .DS_Store
