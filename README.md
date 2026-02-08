@@ -61,7 +61,3 @@ The variable SEX is binary in the ACS:
 - 1: Male
 - 2: Female
 
-
-```python
-
-```
