@@ -1,6 +1,6 @@
 # Prompts
 
-This file contains all the prompts used in AIDE for all experiments done for each use case, including the goal and evaluation criteria, which are requested by AIDE to run the pipelines.
+This file contains the prompts used in AIDE for all experiments done for each use case, including the goal and evaluation criteria, which are requested by AIDE to run the pipelines.
 
 ## Healthcare Admission
 
