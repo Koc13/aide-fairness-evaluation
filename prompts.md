@@ -62,7 +62,7 @@ This file contains the prompts used in AIDE for all experiments done for each us
 - Goal: Determine how fair the hiring prediction is for each group of the sensitive attributes race and sex
 - Evaluation criteria: Compute fairness percentages for each race and sex group relative to a reference group, considering disparities in predicted hiring probabilities
 
-**Note**: The prompts for the pilot experiments done for the Hiring use case are listed directly on the scripts (all files that are not `hiring.ipynb` in the `use-cases/hiring` folder).
+**Note**: The prompts for the pilot experiments done for the Hiring use case are listed directly on the scripts (all files that are not `hiring.ipynb` in the `use-cases/hiring` folder). This includes the goal, evaluation criteria and AIDE's logic description to generate the pipelines.
 
 ## House Application Approval
 
