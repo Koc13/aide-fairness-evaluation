@@ -30,7 +30,9 @@ Fairness was evaluated with respect to the sensitive attributes race and sex.
 
 ## Implemented Techniques
 
-For each use case, we implemented different techniques, depending on the individual use case and the dataset we worked with. For the Hiring, Healthcare Admission and Housing Application Approval, we implemented the following techniques:
+For each use case, we implemented different techniques, depending on the individual use case and the dataset we worked with. 
+
+For the Hiring, Healthcare Admission and Housing Application Approval, we implemented the following techniques:
 
 1. Accuracy-first baseline: This model uses all available features, including sensitive attributes, and is optimized purely for predictive performance (accuracy and ROC AUC). It represents a standard automated ML pipeline without fairness constraints.
 2. Fairness aware (sensitive attributes were eliminated): This model excludes sensitive attributes (race and sex) from the feature set to reduce direct discrimination. While this may slightly reduce predictive accuracy, it aims to lower disparities between protected groups.
@@ -40,9 +42,11 @@ For each use case, we implemented different techniques, depending on the individ
 
 Additionally, for the Hiring use case, we also obtained a pipeline to fairness measurement per group in each sensitive attribute, where fairness is reported as a percentage relative to a reference group. Values below 100% indicate reduced predicted hiring opportunities compared to the reference group, while values above 100% indicate an advantage.
 
+It is important to mention that the pilot experiments were done with the hiring use case, exploring our initial dataset, as well as the scopes and limits of AIDE understanding the prompts it was given. These scripts are located in the `hiring` folder, considering different sensitive attributes, such as education, country of origin and our definite sensitive attributes, race and sex.
+
 ## Datasets 
 
-For the Hiring, Healthcare Admission and Housing Application Approval, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). All datasets includes the selected sensitive attributes (race and sex), which are used to evaluate fairness.
+For the Hiring, Healthcare Admission and Housing Application Approval, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). All datasets includes the selected sensitive attributes (race and sex), which are used to evaluate fairness. Additionally, we used the `adult_reconstruction` dataset provided by Folktables as our initial source to explore how AIDE works and determine the sensitive attributes.
 
 The variable RAC1P encodes a person’s self-identified race in the U.S. Census ACS data.
 
