@@ -47,7 +47,21 @@ It is important to mention that the pilot experiments were done with the hiring 
 
 ## Datasets 
 
-For the Hiring, Healthcare Admission and Housing Application Approval use cases, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). These are imported directly into the scripts. All datasets include the selected sensitive attributes (race and sex), which are used to evaluate fairness. 
+For the Hiring, Healthcare Admission and Housing Application Approval use cases, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). All datasets include the selected sensitive attributes (race and sex), which are used to evaluate fairness.  These are imported directly into the scripts. It is necessary to install folktables to be able to import the datasets.
+
+This can be done via pip
+
+```
+pip install folktables
+```
+
+Or directly from source
+
+```
+git clone https://github.com/zykls/folktables.git
+cd folktables
+pip install -r requirements.txt
+```
 
 Additionally, we used the `adult_reconstruction` dataset provided by Folktables as our initial source to explore how AIDE works and determine the sensitive attributes. This file can be found in in the `datasets/` folder.
 
