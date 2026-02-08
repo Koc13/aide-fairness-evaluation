@@ -14,4 +14,4 @@ Here are all contributions made by each team member for the development of the p
   - Implemented Banking Bias, Facial Recognition and Image Generation for Professions use cases
   - Folders: 
 
-All members contributed to experiment design and analysis of results, including the presentations during the semester.
+All members contributed to experiment design and analysis of results, including the presentations during the semester and the redaction of this repository.
