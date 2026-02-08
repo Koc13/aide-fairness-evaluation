@@ -22,6 +22,7 @@ Fairness was evaluated with respect to the sensitive attributes race and sex.
 
 ## Repository Structure
 
+- `datasets/`: Datasets used to run the scripts
 - `use-cases/`: Implementation of the individual ML pipelines
 - `prompts/`: Prompts used with AIDE to run the experiments (goal and evaluation criteria)
 - `README.md`: Project overview and usage guide
@@ -48,7 +49,7 @@ It is important to mention that the pilot experiments were done with the hiring 
 
 For the Hiring, Healthcare Admission and Housing Application Approval use cases, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). These are imported directly into the scripts. All datasets include the selected sensitive attributes (race and sex), which are used to evaluate fairness. 
 
-Additionally, we used the `adult_reconstruction` dataset provided by Folktables as our initial source to explore how AIDE works and determine the sensitive attributes. This file can be found in in the `datasets` folder.
+Additionally, we used the `adult_reconstruction` dataset provided by Folktables as our initial source to explore how AIDE works and determine the sensitive attributes. This file can be found in in the `datasets/` folder.
 
 The variable RAC1P encodes a person’s self-identified race in the U.S. Census ACS data.
 
