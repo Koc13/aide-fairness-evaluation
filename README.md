@@ -136,25 +136,25 @@ Across the four use cases—BankBias, Crime, Facial Recognition (FairFace), and 
 
 This design choice is intentional and aims to guarantee that observed differences in predictive performance or fairness metrics can be attributed solely to methodological differences, rather than to variations in data selection, preprocessing, or sampling.
 
-BankBias: Comparing Decision Strategies Under Identical Credit Data
+BankBias: Comparing Decision Strategies Under Identical Credit Data(Kaggle)
 
 In the BankBias use case, both baseline and fairness-aware models use the same credit-scoring dataset, with identical samples, features, and labels. Training, validation, and test splits are kept fixed across all experiments.
 
 As a result, gender disparities observed in the baseline model reflect biases inherent in the original data distribution and the model’s unconstrained learning behavior. Any changes observed in the fairness-aware models therefore arise from differences in training and optimization strategies, rather than from dataset modifications. This ensures that fairness comparisons are conducted under consistent and realistic data conditions.
 
-Crime: Analyzing Group Disparities Using a Fixed Multi-Class Dataset
+Crime: Analyzing Group Disparities Using a Fixed Multi-Class Dataset(Kaggle)
 
 For the Crime use case, baseline and fairness-aware models are trained on the same multi-class crime dataset, preserving the original distribution of crime categories and gender groups across all experiments.
 
 Because multi-class classification tasks inherently exhibit class imbalance, altering the dataset for fairness experiments could confound fairness effects with category distribution changes. By keeping the dataset fixed, this use case ensures that differences in fairness and accuracy can be attributed exclusively to modeling and selection strategies, enabling a reliable analysis of fairness–accuracy trade-offs in a complex classification setting.
 
-Facial Recognition (FairFace): Fairness Evaluation Under Realistic Data Imbalance
+Facial Recognition (FairFace): Fairness Evaluation Under Realistic Data Imbalance(Huggingface)
 
 In the Facial Recognition (FairFace) use case, both baseline and fairness-aware models operate on the same highly imbalanced facial image dataset. The disproportionate representation of racial groups remains unchanged across all experimental conditions.
 
 This approach avoids artificially balancing the dataset to induce apparent fairness improvements. Instead, baseline and fairness-aware models are evaluated under identical training conditions, allowing fairness outcomes to reflect the true effectiveness and limitations of the applied methods under realistic data constraints.
 
-Image Generation for Professions: Controlling Source Bias Without Altering Data
+Image Generation for Professions: Controlling Source Bias Without Altering Data(Huggingface)
 
 For the Image Generation for Professions use case, baseline and fairness-aware models are trained and evaluated on the same set of images generated from multiple sources or styles. The proportion, content, and labels of images from each generation source remain identical across all experiments.
 
