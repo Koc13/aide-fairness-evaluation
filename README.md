@@ -45,6 +45,23 @@ Additionally, for the Hiring use case, we also obtained a pipeline to fairness m
 
 It is important to mention that the pilot experiments were done with the hiring use case, exploring our initial dataset, as well as the scopes and limits of AIDE understanding the prompts it was given. These scripts are located in the `hiring` folder, considering different sensitive attributes, such as education, country of origin and our definite sensitive attributes, race and sex.
 
+The following sections analyze four such use cases: BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Professions.
+
+6. The BankBias use case focuses on binary credit-scoring classification, with gender treated as the sensitive attribute. Methodologically, this task is defined by a tabular feature space and a pronounced class imbalance, which limits the effectiveness and interpretability of more complex fairness mechanisms.
+
+Given these constraints, fairness was incorporated through sample-based reweighting at the training stage. This approach addresses group-level disparities at the data distribution level while deliberately avoiding the explicit inclusion of gender as a predictive feature. From a methodological standpoint, this design isolates reweighting as a single fairness intervention, enabling a clearer analysis of its impact under conditions of limited feature expressiveness. More elaborate strategies—such as adaptive reweighting schemes or multi-objective model selection—were intentionally excluded in order to preserve methodological transparency and to prevent confounding effects between multiple fairness mechanisms.
+
+7. The Crime use case involves multi-class classification, with gender considered as the sensitive attribute. In contrast to binary settings, this task presents additional methodological challenges due to the presence of multiple outcome categories and heterogeneous group distributions across classes. As a result, fairness interventions applied solely at the feature or data level are insufficient to capture category-specific disparities.
+
+To address this complexity, fairness was incorporated at the model selection stage via a fairness-aware scoring strategy. This approach introduces an explicit fairness penalty during validation, allowing predictive performance and group-level fairness to be jointly considered when selecting models. Methodologically, operating at the validation level enables fairness constraints to be applied without restricting the underlying model architecture or feature representation, making this strategy particularly suitable for multi-class settings with uneven group distributions.
+
+8.The Facial Recognition (FairFace) use case addresses image-based classification across race-based sensitive groups, where sensitive attributes are inherently embedded in the visual input. From a methodological perspective, removing sensitive attributes is neither feasible nor conceptually appropriate, as group membership is inseparable from the data representation itself.
+
+Given the severe imbalance between racial groups and the limited dataset size, fairness was incorporated through group-based reweighting combined with a fairness-aware loss function. This design increases the optimization influence of underrepresented groups while maintaining access to sensitive group information during training. The methodological objective in this setting is to assess whether loss-level fairness interventions can partially mitigate structural data imbalance in vision-based tasks, without altering the feature space or suppressing sensitive information.
+
+9. The Image Generation for Professions use case concerns image-based profession classification, where image generation style or source was treated as the sensitive attribute. Methodologically, this attribute is external to the semantic content of the prediction task and should not serve as a direct predictive signal.
+
+Accordingly, fairness was addressed through source-based reweighting during training, targeting distributional imbalance at the data level while avoiding the explicit inclusion of source information in the model features. This design choice enables an examination of whether reweighting alone can mitigate source-induced bias when sensitive attributes originate from data generation processes rather than from protected individual characteristics. The approach thus emphasizes methodological separation between task-relevant semantics and bias introduced through dataset construction.
 ## Datasets 
 
 For the Hiring, Healthcare Admission and Housing Application Approval use cases, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). All datasets include the selected sensitive attributes (race and sex), which are used to evaluate fairness.  These are imported directly into the scripts. It is necessary to install folktables to be able to import the datasets.
@@ -82,3 +99,26 @@ The variable SEX is binary in the ACS:
 - 1: Male
 - 2: Female
 
+BankBias
+
+In the BankBias task, methods are applied to study gender bias in a binary credit decision setting. The baseline model is trained using the full feature set to represent a standard automated decision pipeline and to expose existing gender disparities inherent in the data. Fairness-aware feature exclusion removes gender from the input to prevent direct use of sensitive information and to test whether observed bias is driven by explicit gender dependence.
+
+Reweighting-based methods modify the effective training distribution by increasing the contribution of samples from the disadvantaged gender group. This is done to counteract imbalanced representation in the dataset and to encourage the model to learn decision boundaries that better reflect minority groups. Adaptive reweighting further varies the strength of this intervention to observe how increasing emphasis on protected groups affects model behavior. Overall, these methods aim to distinguish between bias caused by feature usage and bias caused by data imbalance in credit scoring.
+
+Crime
+
+For the Crime task, the methods are designed to handle fairness in a multi-class classification problem where disparities may differ across crime categories. The baseline establishes overall predictive behavior without fairness constraints. Rather than altering the feature space aggressively, fairness is primarily introduced through model selection and weighting strategies that consider gender-based group performance.
+
+By evaluating fairness across all crime categories simultaneously, the methods aim to reveal whether fairness improvements are uniform or whether gains in some categories come at the expense of others. Reweighting and fairness-aware selection are used to study how gender disparities interact with class imbalance and label heterogeneity. The purpose is to analyze fairness trade-offs in a realistic setting where decisions are not binary and group effects are unevenly distributed.
+
+Facial Recognition (FairFace)
+
+In the FairFace task, methods are applied to address racial disparities in facial recognition performance caused by strong dataset imbalance. The baseline exposes differences in performance across racial groups. Fairness-oriented methods emphasize underrepresented racial groups by increasing their importance during training or during model evaluation.
+
+Unlike tabular tasks, feature exclusion is not applicable here, as race is not an explicit input feature but a demographic annotation. Instead, fairness is addressed by redistributing training focus toward minority racial groups. The objective is to assess whether reweighting can meaningfully improve worst-group performance under constrained data conditions and limited training capacity. This task evaluates the effectiveness and limits of fairness interventions in vision-based models.
+
+Image Generation for Professions
+
+For the Image Generation for Professions task, the methods target bias introduced by differences in image generation sources or visual styles rather than human demographics. The baseline reflects how strongly generation style influences profession classification performance. The generation source is treated as a sensitive attribute, but it is not used as an input feature.
+
+Fairness-oriented methods adjust the training process by increasing the influence of images from underrepresented or harder-to-classify sources. This approach aims to reduce performance disparities that arise purely from synthetic data characteristics. Adaptive reweighting allows systematic exploration of how increasing emphasis on specific image sources affects classification behavior. The purpose of this task is to evaluate whether standard fairness techniques can mitigate biases originating from data generation processes rather than from social attributes.
