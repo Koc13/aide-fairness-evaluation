@@ -98,6 +98,7 @@ The variable SEX is binary in the ACS:
 
 - 1: Male
 - 2: Female
+Four BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Professions.
 
 BankBias
 
