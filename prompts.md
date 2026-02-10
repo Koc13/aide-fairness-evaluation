@@ -92,34 +92,68 @@ This file contains the prompts used in AIDE for all experiments done for each us
 - Evaluation criteria: Instead of maximizing predictive performance alone, rank results using a joint objective that penalizes unfairness. Score the results considering roc auc and penalties for demographic parity gaps across race and sex.
  ask-Specific Prompt Design for Additional Use Cases
 
-While the Healthcare Admission, Hiring, and Housing Application Approval use cases follow a unified prompt structure, not all tasks could be addressed using the same formulation. Differences in data modality, prediction objectives, and the role of sensitive attributes required more specialized prompt designs for the remaining use cases.
+## Task-Specific Prompt Design for Additional Use Cases
 
-For the BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Professions use cases, prompts were therefore adapted to reflect task-specific methodological constraints. In these settings, prompts primarily define the prediction objective and evaluation criteria, while fairness interventions are handled explicitly at the data, loss, or model-selection level rather than through direct prompt conditioning. This separation ensures methodological clarity and prevents fairness effects from being conflated with prompt-induced behavior.
+While the Healthcare Admission, Hiring, and Housing Application Approval use cases follow a unified prompt structure, this formulation cannot be consistently applied across all tasks. Differences in data modality, prediction objectives, and the conceptual role of sensitive attributes necessitate task-specific prompt designs for the remaining use cases.
 
-BankBias
+For the BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Professions use cases, prompts were deliberately designed to **define the prediction task and evaluation criteria without directly enforcing fairness constraints**. Instead, fairness was handled through explicit methodological mechanisms at the data, loss, or model-selection level. This separation ensures that observed fairness effects can be attributed to well-defined interventions rather than to variations in prompt wording.
 
-Goal: Predict the probability of a positive credit decision using financial and demographic features. Gender is treated as the sensitive attribute but is not included as a predictive feature in the decision logic. The prompt is designed to define the task neutrally, allowing fairness interventions to be applied at the data level.
+---
 
-Evaluation criteria: Evaluate predictive performance using accuracy and roc auc. Fairness is assessed separately through group-level metrics computed across gender groups.
+## BankBias
 
-Crime
+- **Goal**  
+  Predict the probability of a positive credit decision using financial and demographic features. Gender is treated as the sensitive attribute but is not included in the predictive decision logic described by the prompt.
 
-Goal: Classify reported incidents into multiple crime categories based on available case features. Gender is treated as the sensitive attribute but is not explicitly referenced in the prediction task. The prompt formulation remains neutral with respect to fairness constraints.
+- **Evaluation Criteria**  
+  Model performance is evaluated using accuracy and ROC AUC. Fairness is assessed externally through group-level metrics across gender groups.
 
-Evaluation criteria: Evaluate predictive performance using multi-class classification metrics. Fairness is incorporated during model selection through fairness-aware scoring, allowing disparities across gender groups and crime categories to be evaluated externally.
+- **Methodological Rationale**  
+  The prompt is intentionally neutral and task-focused, serving only to specify the prediction objective. This design aligns with the use of sample-based reweighting at the data level, ensuring that fairness effects arise from changes in training distribution rather than from prompt-induced behavioral constraints. By excluding explicit fairness instructions from the prompt, the experimental setup isolates reweighting as the primary fairness intervention under limited feature expressiveness.
 
-Facial Recognition (FairFace)
+---
 
-Goal: Perform facial classification using image-based inputs, where race-based group membership is inherent to the visual data. The prompt focuses exclusively on the classification task without attempting to suppress or abstract sensitive visual attributes.
+## Crime
 
-Evaluation criteria: Evaluate model performance using standard classification metrics. Fairness is assessed across race-based groups and addressed during training through group-based reweighting and fairness-aware loss functions rather than through prompt-level constraints.
+- **Goal**  
+  Classify reported incidents into multiple crime categories based on available case features. Gender is considered a sensitive attribute but is not referenced explicitly in the prediction task.
 
-Image Generation for Professions
+- **Evaluation Criteria**  
+  Predictive performance is evaluated using multi-class classification metrics. Fairness is assessed across gender groups and crime categories during validation.
 
-Goal: Predict profession labels from generated images. Image generation style or source is treated as the sensitive attribute, but is not explicitly mentioned in the prediction task. The prompt is designed to standardize semantic task content across different image sources.
+- **Methodological Rationale**  
+  Given the multi-class nature of the task and heterogeneous group distributions across categories, fairness considerations are incorporated at the model-selection stage rather than at the prompt or feature level. Prompts are therefore kept neutral, allowing fairness-aware scoring during validation to capture category-specific disparities without constraining the underlying model architecture or introducing prompt-level bias.
 
-Evaluation criteria: Evaluate predictive performance using classification accuracy. Fairness is assessed by comparing performance across image sources, with mitigation handled through source-based reweighting during training rather than through prompt conditioning.
+---
 
-Summary of Prompt Design Strategy
+## Facial Recognition (FairFace)
 
-Across all use cases, prompts were designed to serve as task-specification mechanisms rather than as direct fairness enforcement tools. By keeping prompts neutral and consistent with the prediction objectives, fairness effects can be attributed to explicit methodological choices—such as reweighting strategies, loss design, or fairness-aware model selection—rather than to variations in prompt wording. This design choice ensures interpretability and comparability of fairness–accuracy trade-offs across heterogeneous tasks. 
+- **Goal**  
+  Perform image-based facial classification where race-based group membership is inherently embedded in the visual input.
+
+- **Evaluation Criteria**  
+  Model performance is evaluated using standard classification metrics, with fairness assessed across race-based groups.
+
+- **Methodological Rationale**  
+  In this setting, sensitive attributes cannot be meaningfully removed or abstracted at the prompt level, as they are intrinsic to the data representation. Consequently, prompts focus exclusively on the classification task, while fairness is addressed through group-based reweighting and fairness-aware loss functions during training. This design ensures that fairness interventions operate at the optimization level rather than through artificial suppression of sensitive visual information.
+
+---
+
+## Image Generation for Professions
+
+- **Goal**  
+  Predict profession labels from generated images. Image generation style or source is treated as the sensitive attribute but is not explicitly mentioned in the prediction task.
+
+- **Evaluation Criteria**  
+  Predictive performance is evaluated using classification accuracy, with fairness assessed by comparing performance across image sources.
+
+- **Methodological Rationale**  
+  The sensitive attribute in this use case arises from the data generation process rather than from task-relevant semantic content. Accordingly, prompts are designed to standardize semantic information across images while avoiding explicit references to generation style. Fairness is addressed through source-based reweighting at the data level, enabling an analysis of whether distributional interventions can mitigate bias introduced by dataset construction.
+
+---
+
+## Summary: Role of Prompts in the Fairness Methodology
+
+Across all use cases, prompts function as **controlled task specifications rather than fairness enforcement mechanisms**. By maintaining neutral and consistent prompt formulations, fairness effects can be attributed to explicit methodological choices—such as reweighting strategies, loss design, or fairness-aware model selection—rather than to implicit prompt conditioning.
+
+This design choice is essential for preserving methodological transparency and for enabling interpretable comparisons of fairness–accuracy trade-offs across heterogeneous tasks and data modalities.
