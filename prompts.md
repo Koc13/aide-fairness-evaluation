@@ -92,50 +92,45 @@ This file contains the prompts used in AIDE for all experiments done for each us
 - Evaluation criteria: Instead of maximizing predictive performance alone, rank results using a joint objective that penalizes unfairness. Score the results considering roc auc and penalties for demographic parity gaps across race and sex.
  ask-Specific Prompt Design for Additional Use Cases
 
-## Using Prompt Design to Balance Fairness and Accuracy
+## Balancing Fairness and Accuracy Through Prompt Design
 
-Across the four use cases—BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Professions—fairness improvements were not pursued at the expense of predictive accuracy. Instead, prompt design was guided by a central principle: **introducing fairness constraints while preserving as much predictive performance as possible**.
+Across the four use cases BankBias Crime Facial Recognition FairFace and Image Generation for Professions improvements in fairness were not achieved at the expense of predictive accuracy. Instead prompt design throughout the experiments consistently followed a central principle introducing controlled fairness constraints while preserving predictive performance as much as possible.
 
-In the accuracy-first baseline setting, prompts primarily emphasize overall predictive performance, such as accuracy or ROC AUC. Under this formulation, models naturally prioritize dominant patterns in the data, which often leads to strong overall performance but may amplify disparities between different groups.
+In the accuracy first baseline setting prompts primarily emphasize overall predictive performance such as accuracy or ROC AUC. Under this task formulation models naturally prioritize dominant patterns in the data. This often results in strong aggregate performance but can also amplify pre existing disparities between different groups.
 
-In contrast, fairness-aware prompts do not abandon performance objectives. Rather, they reformulate task goals so that fairness becomes an **additional, controlled consideration**. Models are still encouraged to make accurate predictions, but they are no longer allowed to improve performance by disproportionately disadvantaging certain groups.
+In contrast fairness aware prompts do not abandon performance objectives. Instead they reformulate task goals so that fairness becomes an additional but controlled consideration. Models are still encouraged to make accurate predictions but are no longer allowed to achieve performance gains by disproportionately disadvantaging certain groups. In this sense fairness is not treated as a replacement for accuracy but as a constraint on how accuracy is obtained.
 
----
+### BankBias  
+**Reducing Direct Discrimination While Preserving Predictive Power**
 
-### BankBias: Reducing Direct Discrimination While Preserving Predictive Power
+In the BankBias use case fairness aware prompt design focuses on limiting the influence of gender in decision making while preserving the core objective of credit risk prediction. By de emphasizing gender as a decision factor in the task description the prompt encourages the model to rely more strongly on credit relevant financial features rather than gender related patterns.
 
-In the BankBias use case, fairness-aware prompt design focuses on limiting the influence of gender as a decision factor, without undermining the core objective of credit-risk prediction. By constraining the model’s reliance on gender-related patterns, the prompt encourages greater use of task-relevant financial features.
+The goal of this design is not to eliminate all performance differences across groups but to reduce clearly unfair decision behavior while maintaining overall predictive capability. From this perspective the fairness aware prompt restricts shortcut behavior rather than weakening the model’s fundamental predictive capacity.
 
-The goal is not to eliminate all performance differences across groups, but to reduce clearly unfair decision patterns while maintaining overall predictive capability. In this sense, the fairness-aware prompt restricts shortcut behavior rather than weakening the model’s fundamental predictive capacity.
+### Crime  
+**Balancing Group Disparities and Overall Performance in a Multi Class Setting**
 
----
+In the Crime use case fairness aware prompts do not require equal predictive performance across all crime categories and gender groups. Instead the prompt emphasizes that group level disparities should be considered alongside predictive performance during model selection.
 
-### Crime: Balancing Group Disparities and Overall Performance in a Multi-Class Setting
+This design reflects an explicit balancing strategy fairness is treated as an important optimization factor but does not override the multi class classification objective. As a result selected models typically represent a compromise between reducing group disparities and maintaining reasonable overall classification performance.
 
-For the Crime use case, fairness-aware prompt design does not require equal performance across all crime categories and gender groups. Instead, it emphasizes that group-level disparities should be considered alongside predictive performance during model selection.
+### Facial Recognition FairFace  
+**Avoiding Over Constraint Under Limited Data Conditions**
 
-This reflects a deliberate balancing strategy: fairness is treated as an important optimization factor, but not one that overrides the multi-class classification objective. As a result, selected models represent a compromise between minimizing group disparities and maintaining reasonable overall classification performance.
+In the Facial Recognition FairFace use case limited dataset size and severe group imbalance make strict equality of performance across racial groups methodologically unrealistic. Accordingly fairness aware prompts do not impose such hard constraints.
 
----
+Instead the prompt emphasizes gradually improving outcomes for underrepresented groups while preserving baseline classification ability. This reflects a pragmatic design approach under constrained data conditions fairness improvements are pursued incrementally rather than at the cost of destabilizing overall model performance.
 
-### Facial Recognition (FairFace): Avoiding Over-Constraint Under Limited Data Conditions
+### Image Generation for Professions  
+**Controlling Source Bias While Preserving Semantic Consistency**
 
-In the Facial Recognition use case, severe data imbalance and limited sample size make strict fairness constraints unrealistic. The fairness-aware prompt therefore does not demand equal performance across all racial groups.
+In the Image Generation for Professions use case fairness aware prompts aim to prevent the model from over relying on image generation style which is unrelated to the semantic task of profession prediction. By emphasizing profession related semantic content and de emphasizing non semantic visual cues the prompt encourages consistent decision logic across different image sources.
 
-Instead, it emphasizes improving outcomes for underrepresented groups while preserving baseline classification ability. This reflects a pragmatic approach in which fairness improvements are pursued incrementally, without destabilizing the model’s overall performance under constrained data conditions.
+This design helps reduce source related bias while preserving the model’s ability to recognize task relevant semantic information thereby maintaining a necessary balance between fairness and accuracy.
 
----
+## Summary  
+**Fairness as a Constraint Rather Than a Replacement for Accuracy**
 
-### Image Generation for Professions: Controlling Source Bias While Preserving Semantic Consistency
+Overall prompt design across these four use cases does not treat fairness as an opposing objective to accuracy but rather as a constraint on the way predictive performance is achieved. Models are no longer allowed to improve performance by amplifying group disparities and are instead guided to optimize within more balanced decision boundaries.
 
-In the Image Generation for Professions use case, the fairness-aware prompt aims to prevent the model from over-relying on image generation style—a factor unrelated to the semantic task of profession prediction.
-
-By emphasizing profession-related content and de-emphasizing non-semantic visual cues, the prompt encourages consistent decision logic across image sources. This supports fairness by reducing source-based bias while preserving the model’s ability to recognize task-relevant visual information.
-
----
-
-## Summary: Fairness as a Constraint, Not a Replacement for Accuracy
-
-Overall, prompt design in these four use cases treats fairness not as a substitute for accuracy, but as a **constraint on how accuracy is achieved**. Rather than allowing performance gains through amplified group disparities, fairness-aware prompts encourage models to operate within more balanced decision boundaries.
-
-This approach does not guarantee an ideal fairness–accuracy trade-off in all settings. However, it provides a systematic way to explore this trade-off, avoiding extreme solutions that prioritize either fairness or accuracy in isolation.
+While prompt based design cannot guarantee an ideal fairness accuracy trade off in all scenarios it provides a clear and controlled experimental framework for systematically exploring this trade off and avoids extreme approaches that prioritize either fairness or accuracy in isolation.
