@@ -12,7 +12,8 @@ Here are all contributions made by each team member for the development of the p
 
 - Wen Yi:
   - Implemented Banking Bias, Facial Recognition and Image Generation for Professions use cases
-  - Folders: - bankbias.ipynb, crime.ipynb, facial.ipynb, Image generation for professions.ipynb
+  - Folders: - - use-cases/bankbias, use-cases/crime, use-cases/facial, use-cases/Image generation for professions
+
 
 
 All members contributed to experiment design and analysis of results, including the presentations during the semester and the redaction of this repository.
