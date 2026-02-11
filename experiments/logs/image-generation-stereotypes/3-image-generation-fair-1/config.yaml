@@ -1,0 +1,66 @@
+data_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- resources
+- datasets
+- visage
+desc_file: null
+goal: Create a Python pipeline using diffusers library StableDiffusionPipeline to
+  GENERATE fairness-improved portrait images. Input is a list of nationalities. The
+  pipeline MUST implement stereotype mitigation using BOTH enhanced positive prompts
+  AND negative prompts. Positive prompt template should be Portrait of a NATIONALITY
+  person modern professional attire contemporary office setting confident expression
+  diverse representation high-quality photography. Negative prompt should block stereotypical
+  offensive caricature poor primitive traditional clothing war violence weapons drugs
+  terrorist low quality blurry. Use model runwayml/stable-diffusion-v1-5 with guidance_scale=7.5.
+  WARNING Do NOT read images from disk GENERATE new images from scratch.
+eval: Generate images for 3 nationalities Afghans Mexicans Nigerians. Success criteria
+  are all output files exist and are valid PNGs, images show modern professional context
+  with no traditional or stereotypical elements visible, high visual quality with
+  clear well-lit detailed faces. Score = 1.0 if all criteria met for all nationalities,
+  0.5 if partial success, 0.0 if generation fails.
+log_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- logs
+- 0-crystal-bold-beagle
+workspace_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- workspaces
+- 0-crystal-bold-beagle
+preprocess_data: true
+copy_data: true
+exp_name: 0-crystal-bold-beagle
+exec:
+  timeout: 3600
+  agent_file_name: runfile.py
+  format_tb_ipython: false
+generate_report: true
+report:
+  model: gpt-4.1
+  temp: 1.0
+agent:
+  steps: 20
+  k_fold_validation: 5
+  expose_prediction: false
+  data_preview: true
+  code:
+    model: o4-mini
+    temp: 0.5
+  feedback:
+    model: gpt-4.1-mini
+    temp: 0.5
+  search:
+    max_debug_depth: 3
+    debug_prob: 0.5
+    num_drafts: 5

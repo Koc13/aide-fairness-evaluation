@@ -1,0 +1,61 @@
+data_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- resources
+- datasets
+- student-admission
+desc_file: null
+goal: Predict student admission decisions with strict fairness constraints. Use fairlearn
+  library to enforce demographic parity difference ≤ 0.15 and equal opportunity difference
+  ≤ 0.10 across race, gender, and socioeconomic_status. Consider techniques like fairlearn
+  ThresholdOptimizer for post-processing with separate thresholds per group, ExponentiatedGradient
+  for constraint-based training, GridSearch with fairness constraints, or per-group
+  calibration. Remove sensitive features during training but use them for fairness
+  evaluation and post-processing.
+eval: balanced metric combining accuracy and fairness violations with targets of demographic
+  parity below 0.15 and equal opportunity below 0.10
+log_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- logs
+- 0-hilarious-cheerful-limpet
+workspace_dir: !!python/object/apply:pathlib.PosixPath
+- /
+- home
+- koc13
+- TUB
+- RDSPRO
+- workspaces
+- 0-hilarious-cheerful-limpet
+preprocess_data: true
+copy_data: true
+exp_name: 0-hilarious-cheerful-limpet
+exec:
+  timeout: 3600
+  agent_file_name: runfile.py
+  format_tb_ipython: false
+generate_report: true
+report:
+  model: gpt-4.1
+  temp: 1.0
+agent:
+  steps: 20
+  k_fold_validation: 5
+  expose_prediction: false
+  data_preview: true
+  code:
+    model: o4-mini
+    temp: 0.5
+  feedback:
+    model: gpt-4.1-mini
+    temp: 0.5
+  search:
+    max_debug_depth: 3
+    debug_prob: 0.5
+    num_drafts: 5
