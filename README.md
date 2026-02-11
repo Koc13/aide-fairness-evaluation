@@ -33,6 +33,8 @@ Fairness was evaluated with respect to the sensitive attributes race and sex.
 
 For each use case, we implemented different techniques, depending on the individual use case and the dataset we worked with. 
 
+Overviews of the Income Prediction, Student Admission Prediction and Image Generation Stereotypes use can be found in appropriate use-case folders.
+
 For the Hiring, Healthcare Admission and Housing Application Approval, we implemented the following techniques:
 
 1. Accuracy-first baseline: This model uses all available features, including sensitive attributes, and is optimized purely for predictive performance (accuracy and ROC AUC). It represents a standard automated ML pipeline without fairness constraints.
