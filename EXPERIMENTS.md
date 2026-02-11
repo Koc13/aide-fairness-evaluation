@@ -102,4 +102,125 @@ Across experiments, the following fairness techniques were tested:
 
 6. **Adversarial Testing**: Evaluating model robustness and fairness under adversarial conditions
    - Applied in: Income and student admission adversarial experiments
+We adopt a unified experimental framework across the four use cases BankBias Crime Facial Recognition FairFace and Image Generation for Professions. Under fixed data conditions we analyze the trade off between accuracy and fairness by modifying optimization objectives and model selection strategies through prompt driven design. All observed changes in fairness or predictive performance arise from methodological differences rather than from data manipulation sampling variation or preprocessing discrepancies.
 
+
+Building on the general experiment organization described above, the following section specifies how this unified framework is implemented in four representative use cases: BankBias, Crime, Facial Recognition FairFace, and Image Generation for Professions.
+
+Across all four use cases, the datasets, preprocessing pipelines, feature spaces, and data splits remain strictly identical between baseline and fairness aware configurations. No data rebalancing, resampling, filtering, or feature modification is introduced when switching from baseline to fairness aware settings. The only source of variation across configurations is the prompt, which alters the optimization objective, training strategy, or model selection criterion.
+
+Under this controlled setup, fairness improvements are investigated exclusively through prompt driven methodological adjustments. Any observed change in predictive performance or fairness metrics can therefore be attributed to differences in optimization logic rather than to changes in data composition. This design isolates the effect of prompt intervention and enables a systematic analysis of the trade off between predictive accuracy and fairness under identical data conditions.
+
+## Fixed Data and Version Control
+
+For each of the four use cases, a single dataset version is used consistently across all baseline and fairness aware settings.
+
+BankBias uses one fixed version of the Kaggle credit scoring dataset stored in datasets bankbias. Feature definitions and labels remain unchanged throughout all runs.
+
+Crime uses one fixed version of the Kaggle multi class crime dataset stored in datasets crime. The original distribution of crime categories and gender groups is preserved.
+
+Facial Recognition FairFace uses a fixed version of the FairFace dataset obtained from HuggingFace and stored in datasets fairface. The naturally occurring racial imbalance is retained without any resampling or rebalancing.
+
+Image Generation for Professions uses a fixed set of images collected from multiple generation sources or styles stored in datasets professions. The relative proportions of sources and associated labels remain identical across all experiments.
+
+To ensure methodological consistency, the following elements are explicitly fixed in the implementation.
+
+Data file paths and file names or dataset version identifiers when retrieved from external repositories.
+
+The exact list of feature columns and label definitions.
+
+All preprocessing rules including missing value handling categorical encoding and image resizing and normalization.
+
+By holding these components constant, any variation in accuracy or fairness metrics is attributable to prompt induced changes in optimization behavior rather than implicit shifts in data composition.
+
+## Fixed Data Splits and Randomness Control
+
+After dataset preparation, a single train validation test split is generated for each use case and reused across all experimental variants.
+
+A fixed random seed such as 42 is used for data partitioning.
+
+A predefined split ratio such as 70 15 15 is applied unless otherwise specified.
+
+When stratification is required, it follows task specific rules.
+
+BankBias stratifies by target label and optionally by sex depending on implementation.
+
+Crime stratifies by multi class label to maintain category balance.
+
+Facial Recognition FairFace stratifies by prediction label while preserving the natural distribution of racial groups.
+
+Image Generation for Professions stratifies by profession label and maintains identical source proportions across splits.
+
+Split indices are stored explicitly in structured files to ensure that all configurations operate on identical subsets of data. Because baseline and fairness aware models are trained and evaluated on exactly the same samples, differences in results reflect changes in learning objectives rather than sampling variation.
+
+## Experimental Settings Baseline and Fairness Aware Variants
+
+Within each use case, two primary configurations are evaluated to characterize how prompt driven optimization changes influence the balance between predictive performance and fairness.
+
+### Accuracy First Baseline
+
+The baseline configuration optimizes solely for predictive performance using metrics appropriate to the task such as Accuracy ROC AUC or Macro F1.
+
+No fairness penalties or fairness based model selection criteria are introduced.
+
+Fairness metrics are computed only for post hoc analysis and are not incorporated into the training objective.
+
+### Fairness Aware Configuration
+
+In the fairness aware configuration, the dataset feature space data splits preprocessing pipeline and computational budget remain unchanged.
+
+Only optimization objectives training strategies or model selection criteria are modified through prompt driven guidance.
+
+Depending on the use case, this may include fairness aware loss terms group reweighting sample reweighting source reweighting or composite validation scores such as AUC minus lambda multiplied by fairness gap.
+
+All predictive performance metrics are still reported alongside fairness metrics. Additional hyperparameters introduced by fairness mechanisms such as lambda or weight coefficients are logged and documented.
+
+In other words, fairness is not achieved by modifying the dataset, but by constraining how the model optimizes over the same data. The model is required to maintain competitive predictive performance while reducing disparities between protected groups. This makes the observed outcomes an explicit manifestation of the accuracy fairness trade off under identical data conditions.
+
+## Consistent Training Budget and Hyperparameter Protocol
+
+To avoid confounding performance differences with resource allocation, both baseline and fairness aware settings use identical training budgets and search procedures.
+
+The same model family or backbone architecture is used within each use case.
+
+The same number of training epochs and early stopping criteria are applied.
+
+The same hyperparameter search space and number of trials are maintained.
+
+Evaluation frequency and checkpoint policies are identical across configurations.
+
+When fairness aware methods introduce additional hyperparameters, their search ranges and selection rules are explicitly defined. Model selection is conducted using consistent validation protocols across all variants.
+
+This ensures that any shift in accuracy or fairness metrics reflects differences in optimization objectives rather than differences in computational effort.
+
+## Evaluation Metrics and Reporting
+
+All evaluation metrics are computed on the same held out test split.
+
+Predictive performance metrics vary by task.
+
+BankBias reports Accuracy and ROC AUC.
+
+Crime reports Macro F1 and optionally Accuracy.
+
+Facial Recognition FairFace reports Overall Accuracy and Worst group F1.
+
+Image Generation for Professions reports Accuracy or Macro F1 depending on implementation.
+
+Fairness metrics are calculated with respect to race and sex. The definition of fairness gap such as demographic parity gap or equal opportunity gap is specified explicitly. Group definitions and aggregation rules are fixed across all experimental variants.
+
+All fairness metrics are computed on the test set using identical group definitions and aggregation procedures across baseline and fairness aware settings.
+
+## Result Logging and Traceability
+
+Each experiment generates structured outputs that document both predictive performance and fairness characteristics.
+
+Metrics files store overall scores group level scores and fairness gap values.
+
+Configuration files record random seeds data split identifiers model settings and fairness related hyperparameters.
+
+Prediction files store instance identifiers ground truth labels predicted labels and associated group attributes.
+
+All summary tables and visualizations are generated directly from these stored outputs to ensure consistency between reported results and underlying experimental runs.
+
+Through this strictly controlled experimental design, the four use cases provide a structured environment for analyzing how prompt driven methodological adjustments influence the balance between predictive accuracy and fairness under identical data conditions.
