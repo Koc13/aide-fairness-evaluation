@@ -60,42 +60,48 @@ All baseline and fairness aware experiments are conducted using the same dataset
 
 In the baseline setting prompts primarily emphasize overall predictive performance such as Accuracy ROC AUC or Macro F1. Under such objectives models naturally prioritize dominant patterns in the data. While this often leads to strong aggregate performance it can also amplify pre existing group disparities.
 
-In contrast fairness aware prompts introduce additional fairness constraints or trade off objectives without abandoning performance metrics. Rather than simply optimizing for fairness these prompts require the model to maintain or improve predictive performance while avoiding performance gains that arise from disproportionately disadvantaging certain groups. The results reported in the tables reflect how this trade off manifests differently across tasks.
+In contrast, fairness-aware prompts introduce additional fairness constraints or trade-off objectives while retaining performance metrics. Rather than optimizing fairness alone, these prompts require the model to preserve predictive performance and avoid gains that disproportionately disadvantage specific groups. The results in the tables illustrate how this trade-off manifests differently across tasks.
 
-Facial Recognition FairFace
+Facial Recognition (FairFace)
 
-In the facial recognition task prompt driven design activates group based reweighting combined with a fairness aware loss function aiming to increase attention to underrepresented racial groups.
-As shown in the table although this approach reflects a clear fairness oriented design intention overall accuracy and worst group F1 scores remain low due to the small dataset size severe racial imbalance and limited training epochs.
+In the facial recognition task, prompt-driven design activates group-based reweighting combined with a fairness-aware loss to increase attention to underrepresented racial groups.
 
-This outcome demonstrates that the prompt guided fairness approach does not produce artificial fairness gains by sacrificing accuracy. Instead it reveals the practical limits of fairness interventions under realistic data constraints.
+As shown in the table, despite this fairness-oriented design, overall accuracy and worst-group F1 remain low due to small dataset size, severe racial imbalance, and limited training epochs.
+
+This demonstrates that the prompt-guided fairness approach does not create artificial fairness gains by sacrificing accuracy, but instead exposes the practical limits of fairness interventions under realistic data constraints.
 
 Crime
 
-In the Crime use case prompts trigger fairness aware validation and model selection strategies rather than direct interventions at the feature or data distribution level.
-The results indicate that fairness effects vary across crime categories some categories such as Miscellaneous and Violence exhibit improved group fairness while others such as Theft experience degraded fairness.
+In the Crime use case, prompts trigger fairness-aware validation and model selection rather than direct feature or data interventions.
 
-This highlights a key characteristic of the prompt driven approach in this setting fairness is treated as an important factor in model selection but not as an objective that overrides predictive performance. Consequently a clear trade off between fairness gains and accuracy emerges and this trade off is explicitly exposed rather than concealed.
+Fairness effects vary across categories: some (e.g., Miscellaneous, Violence) improve, while others (e.g., Theft) worsen.
+
+Here, fairness is incorporated into model selection without overriding predictive performance. A clear trade-off between fairness and accuracy emerges and is made explicit rather than concealed.
 
 BankBias
 
-In the BankBias use case prompts guide the model toward a sample based reweighting strategy to mitigate gender imbalance without using gender as an explicit model feature.
-The results show that while overall accuracy decreases substantially fairness outcomes for female customers do not improve in a meaningful way.
+In BankBias, prompts guide a sample-based reweighting strategy to mitigate gender imbalance without using gender as an explicit feature.
 
-This indicates that the prompt driven fairness approach does not manufacture fairness by sacrificing accuracy. Instead it reveals that under limited feature expressiveness and strong gender imbalance reweighting alone is insufficient to simultaneously achieve fairness improvement and performance preservation.
+Although overall accuracy drops substantially, fairness outcomes for female customers do not meaningfully improve.
+
+This indicates that the prompt-driven approach does not manufacture fairness at the cost of performance. Instead, it reveals that under limited feature expressiveness and strong imbalance, reweighting alone cannot achieve fairness and performance simultaneously.
 
 Image Generation for Professions
 
-In the Image Generation for Professions use case prompts guide the model to apply source based reweighting to address bias introduced by image generation styles while avoiding explicit use of source information as a predictive feature.
-As shown in the table although the method is designed to balance fairness and accuracy overall performance remains extremely low and source based performance gaps remain largely unchanged due to weak semantic image features and dominant style differences.
+In this use case, prompts guide source-based reweighting to address style-induced bias without using source as a predictive feature.
 
-This result further illustrates that prompt driven fairness design does not force apparent fairness improvements at the cost of accuracy. Instead when accuracy itself is fundamentally limited the approach realistically exposes the boundaries of what fairness methods can achieve.
+Despite this design, overall accuracy remains extremely low and style-based gaps persist due to weak semantic features and dominant style differences.
 
-Summary Prompt Driven Fairness as a Constrained Trade off
+Again, prompt-driven fairness does not force superficial fairness improvements. When predictive performance is fundamentally limited, it realistically exposes the boundaries of fairness methods.
 
-Taken together the four use cases demonstrate that the primary role of prompts is to drive the selection of fairness mechanisms and evaluation logic rather than to alter datasets or artificially manipulate outcomes.
-Across all experiments fairness improvements are pursued under consistent task definitions and comparable performance metrics and predictive accuracy is never ignored or abandoned.
+Summary: Prompt-Driven Fairness as a Constrained Trade-Off
 
-Therefore these results should not be interpreted as simple cases of trading accuracy for fairness. Rather they illustrate how fairness and accuracy interact under different task conditions shaped jointly by the optimization objectives and constraints defined through prompt design.
+Across all four use cases, prompts primarily guide the selection of fairness mechanisms and evaluation logic rather than manipulating data or outcomes.
+
+Fairness improvements are pursued under consistent task definitions and performance metrics, and predictive accuracy is never abandoned.
+
+These results therefore should not be interpreted as simple accuracy–fairness exchanges. Instead, they illustrate how fairness and accuracy interact under task-specific constraints shaped by prompt-defined objectives.
+
 ## Datasets 
 
 For the Hiring, Healthcare Admission and Housing Application Approval use cases, we use the ACSEmployment, ACSPublicCoverage and ACSMobility datasets, respectively, from the Folktables benchmark, which is derived from the U.S. Census American Community Survey (ACS). All datasets include the selected sensitive attributes (race and sex), which are used to evaluate fairness.  These are imported directly into the scripts. It is necessary to install folktables to be able to import the datasets.
@@ -137,36 +143,36 @@ Four BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Pr
 
 Data Usage and Fair Experimental Comparison Across the Four Use Cases
 
-Across the four use cases—BankBias, Crime, Facial Recognition (FairFace), and Image Generation for Professions both baseline and fairness-aware models are trained and evaluated on exactly the same datasets. The datasets themselves remain unchanged across experimental settings, ensuring that all comparisons are conducted under identical data conditions.
+Across the four use cases BankBias, Crime, Facial Recognition FairFace, and Image Generation for Professions baseline and fairness aware models are trained and evaluated on exactly the same datasets. Data, features, labels, and splits remain unchanged in all experiments.
 
-This design choice is intentional and aims to guarantee that observed differences in predictive performance or fairness metrics can be attributed solely to methodological differences, rather than to variations in data selection, preprocessing, or sampling.
+This ensures that differences in performance or fairness result from modeling choices rather than changes in data selection, preprocessing, or sampling.
 
-BankBias: Comparing Decision Strategies Under Identical Credit Data(Kaggle)
+BankBias Kaggle
 
-In the BankBias use case, both baseline and fairness-aware models use the same credit-scoring dataset, with identical samples, features, and labels. Training, validation, and test splits are kept fixed across all experiments.
+Both baseline and fairness aware models use the same credit scoring dataset with identical samples and fixed train, validation, and test splits.
 
-As a result, gender disparities observed in the baseline model reflect biases inherent in the original data distribution and the model’s unconstrained learning behavior. Any changes observed in the fairness-aware models therefore arise from differences in training and optimization strategies, rather than from dataset modifications. This ensures that fairness comparisons are conducted under consistent and realistic data conditions.
+Gender disparities in the baseline reflect biases in the original data and unconstrained learning. Any changes in fairness aware models come solely from different training strategies, not dataset modifications.
 
-Crime: Analyzing Group Disparities Using a Fixed Multi-Class Dataset(Kaggle)
+Crime Kaggle
 
-For the Crime use case, baseline and fairness-aware models are trained on the same multi-class crime dataset, preserving the original distribution of crime categories and gender groups across all experiments.
+All models are trained on the same multi class crime dataset, preserving the original distribution of crime categories and gender groups.
 
-Because multi-class classification tasks inherently exhibit class imbalance, altering the dataset for fairness experiments could confound fairness effects with category distribution changes. By keeping the dataset fixed, this use case ensures that differences in fairness and accuracy can be attributed exclusively to modeling and selection strategies, enabling a reliable analysis of fairness–accuracy trade-offs in a complex classification setting.
+Because multi class data is naturally imbalanced, modifying the dataset could distort fairness results. Keeping it fixed ensures that fairness and accuracy differences stem only from modeling and selection strategies.
 
-Facial Recognition (FairFace): Fairness Evaluation Under Realistic Data Imbalance(Huggingface)
+Facial Recognition FairFace Huggingface
 
-In the Facial Recognition (FairFace) use case, both baseline and fairness-aware models operate on the same highly imbalanced facial image dataset. The disproportionate representation of racial groups remains unchanged across all experimental conditions.
+Both models use the same highly imbalanced facial image dataset, with racial group proportions unchanged.
 
-This approach avoids artificially balancing the dataset to induce apparent fairness improvements. Instead, baseline and fairness-aware models are evaluated under identical training conditions, allowing fairness outcomes to reflect the true effectiveness and limitations of the applied methods under realistic data constraints.
+We do not artificially rebalance the data. Fairness results therefore reflect the real limits of the methods under realistic imbalance.
 
-Image Generation for Professions: Controlling Source Bias Without Altering Data(Huggingface)
+Image Generation for Professions Huggingface
 
-For the Image Generation for Professions use case, baseline and fairness-aware models are trained and evaluated on the same set of images generated from multiple sources or styles. The proportion, content, and labels of images from each generation source remain identical across all experiments.
+Baseline and fairness aware models are trained on the same images generated from different sources or styles. Image proportions and labels remain identical.
 
-This ensures that performance differences observed in the baseline accurately reflect source-induced bias present in the data. Any changes in fairness-aware models can therefore be attributed to how the model handles source imbalance during learning, rather than to changes in the dataset itself.
+Any bias observed in the baseline reflects source imbalance in the data. Fairness aware results therefore show how the model handles this imbalance rather than changes in the dataset.
 
-Summary: Consistent Data Usage as the Foundation of Fair Evaluation
+Summary
 
-Across all four use cases, experimental fairness is ensured not by modifying datasets, but by comparing different modeling approaches under identical data conditions. By keeping datasets, feature spaces, and data splits constant, changes in fairness and accuracy can be clearly attributed to methodological choices rather than to data manipulation.
+In all four use cases fairness evaluation is conducted under identical data conditions. Datasets, features, and splits remain constant.
 
-This design strengthens the validity of the experimental conclusions and supports a transparent analysis of fairness–accuracy trade-offs in realistic settings.
+This ensures that changes in fairness or accuracy are driven by modeling decisions rather than data manipulation, supporting a transparent and reliable analysis of fairness and accuracy trade offs.
