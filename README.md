@@ -33,7 +33,12 @@ Fairness was evaluated with respect to the sensitive attributes race and sex.
 
 For each use case, we implemented different techniques, depending on the individual use case and the dataset we worked with. 
 
-Overviews of the Income Prediction, Student Admission Prediction and Image Generation Stereotypes use can be found in appropriate use-case folders.
+### Use cases: Income, Student Admission, Image Generation Stereotypes
+
+- Overviews can be found in appropriate folders:
+    - `use-cases/income/overview.md` 
+    - `use-cases/student-admission/overview.md` 
+    - `use-cases/image-generation-stereotypes/overview.md`
 
 For the Hiring, Healthcare Admission and Housing Application Approval, we implemented the following techniques:
 
