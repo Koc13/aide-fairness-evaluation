@@ -77,28 +77,9 @@ aide data_dir="datasets/acs-income-ca" \
      agent.steps=20
 ```
 
-## Project Structure Overview
-
-```
-.
-├── datasets/           # Datasets used in experiments
-├── experiments/        # AIDE experiment logs and workspaces
-│   ├── logs/          # Configuration, results, and visualizations
-│   └── workspaces/    # Working directories with predictions
-├── use-cases/          # Jupyter notebooks for each use case
-│   ├── income/
-│   ├── student-admission/
-│   ├── hiring/
-│   └── ...
-├── prompts.md          # Prompts used for AIDE experiments
-├── EXPERIMENTS.md      # Detailed experimental methodology
-└── README.md           # Project overview
-```
-
-## Summary
+# Summary
 
 1. **Explore Results**: Open notebooks in `use-cases/` to see analysis
 2. **Read Methodology**: Check `EXPERIMENTS.md` for experimental design
 3. **View Prompts**: See `prompts.md` for AIDE prompts used
 4. **Read Papers**: Check references in individual use case overviews
-
